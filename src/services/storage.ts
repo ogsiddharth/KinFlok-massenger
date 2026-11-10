@@ -42,14 +42,16 @@ if (isFirebaseConfigured) {
       messagingSenderId: env.VITE_FIREBASE_MESSAGING_SENDER_ID,
       appId: env.VITE_FIREBASE_APP_ID,
     };
+
     firebaseApp = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-    const databaseId = env.VITE_FIREBASE_FIRESTORE_DATABASE_ID || undefined;
-    firestoreDb = databaseId ? getFirestore(firebaseApp, databaseId) : getFirestore(firebaseApp);
+    firestoreDb = getFirestore(firebaseApp);
+
   } catch (err) {
     console.warn('Failed to initialize Firebase, falling back to local persistent store:', err);
     firestoreDb = null;
   }
 }
+
 
 // -----------------------------------------------------------------------------
 // LOCAL / HYBRID REAL-TIME STORE (IndexedDB / LocalStorage + BroadcastChannel)
